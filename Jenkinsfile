@@ -6,7 +6,7 @@ pipeline {
         registryPassword = 'Anhhieu159220'
         NAME = 'centralize-config'
         MOBILE = '0967840437'
-        VERSION = "${env.BUILD_ID}"
+        VERSION = "1.0.0"
         PORT = '5000'
     }
 
@@ -51,6 +51,17 @@ pipeline {
                 sh "docker push ${MOBILE}/${NAME}:${VERSION}"
                 sh "docker rmi ${MOBILE}/${NAME}:${VERSION}"
                 sh "docker rmi ${NAME}:latest"
+            }
+        }
+
+        stage('Deploy Service') {
+            steps {
+                echo 'Start Deploy Service'
+                kubeconfig(credentialsId: 'myminikube', serverUrl:'', caCertificate:'') {
+                    sh 'kubectl get pods'
+                    sh "helm uninstall ${NAME}"
+                    sh "helm install -n default ${NAME} deployment/${NAME}/"
+                }
             }
         }
     }

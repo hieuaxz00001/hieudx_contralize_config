@@ -8,6 +8,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/javatodev/internet-banking-configurations.git
-          search-paths: configuration
+          uri: https://github.com/hieuaxz00001/hieudx1-centralize-config.git
+          search-paths: configurations
           default-label: main
